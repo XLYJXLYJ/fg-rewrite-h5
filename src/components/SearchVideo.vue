@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import IsWinXin from '@/common/IsWinXin'
 export default {
   name: 'HelloWorld',
   data () {
@@ -35,6 +36,9 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       playStatus:false,//默认的播放状态
     }
+  },
+  mounted() {
+    IsWinXin.IsWinXin()
   },
   methods: {
     // 控制视频播放，暂停

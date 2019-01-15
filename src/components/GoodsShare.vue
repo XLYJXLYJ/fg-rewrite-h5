@@ -24,6 +24,7 @@
     </div>
 </template>
 <script>
+import IsWinXin from '@/common/IsWinXin'
 import Qs from 'qs'
 export default {
     data () {
@@ -43,6 +44,7 @@ export default {
         }
     },
     mounted() {
+        IsWinXin.IsWinXin()
         this.ids = this.GetId();
         this.GetShopDetail()
         this.GetCopyCommand()

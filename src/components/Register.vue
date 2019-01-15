@@ -4,7 +4,7 @@
     <alert v-model="alert_show">{{error_type}}</alert>
     <div class="change_password">
       <div class="me">
-        <p>忘记密码</p>
+        <p>凡购注册</p>
       </div>
       <div class="logo"><img src="../assets/register_logo@2x.png" alt=""></div>
       <form>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import IsWinXin from '@/common/IsWinXin'
 // import store from '@/vuex/store'
 import Qs from 'qs'
 export default {
@@ -75,15 +76,10 @@ export default {
     },
     'phone_code': function () {
       this.IsShowLoginButtonColor()
-    },
-    'password': function () {
-      this.IsShowLoginButtonColor()
-    },
-    'confirm_password': function () {
-      this.IsShowLoginButtonColor()
     }
   },
   created () {
+    IsWinXin.IsWinXin()
     this.GetImgCode()
     // this.phone = localStorage.getItem('mobile')
   },
@@ -119,6 +115,7 @@ export default {
           if (response.data.data.userId) {
             this.error_type = '该手机号已经注册'
             this.alert_show = true
+            setTimeout(() => {this.$router.push('loginSuccess')}, 1500);
           }
         } else {
           this.error_type = response.data.message
@@ -245,14 +242,36 @@ export default {
         this.btnTxtColor02 = false
       }
     },
-    // 确认修改密码
+    // 注册
     ConfirmChangePassword () {
       let regpassword = /^[a-zA-Z0-9]\w{6,16}$/
+      let arrParams = window.location.href.split("?")[1].split("&"),
+      parseObj = {};
+      for(let i = 0; i < arrParams.length; i ++) {
+          let newA = arrParams[i].split("=");
+          parseObj[newA[0]] = newA[1];
+      }
+      let inviteCode = parseObj.inviteCode;
+      if (!inviteCode) {
+          inviteCode = "181818";
+      }
+      let appVersion = parseObj.appVersion;
+      let deviceId = "0000ANDROID";
+      let osVersion = "android"; 
+        let isiOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+      if (isiOS) {
+          deviceId = "00000000IOS";
+          osVersion = "ios";
+      }
       let data = {
         mobile: this.phone.toString(),
         // password: this.$md5(this.confirm_password),
         verifiCode: this.phone_code,
-        osType: 0
+        osType: 0,
+        inviteCode:inviteCode,
+        osVersion: osVersion,
+        appVersion: appVersion,
+        deviceId:deviceId
       }
       if (!this.phone) {
         this.error_type = '手机号不能为空'
@@ -269,7 +288,7 @@ export default {
           .then(response => {
             if (response.data.code === 200) {
               if (response.data.data.userId) {
-                this.$router.push({name: 'RegisterSuccess'})
+                this.$router.push({name: 'loginSuccess'})
               }
             } else {
               this.error_type = response.data.message

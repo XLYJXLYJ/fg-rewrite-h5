@@ -4,7 +4,7 @@
     <alert v-model="alert_show">{{error_type}}</alert>
     <div class="change_password">
       <div class="me">
-        <p>忘记密码</p>
+        <p>凡购注册</p>
       </div>
       <img src="../assets/register_icon_success@2x.png">
       <p class="register-success">注册成功</p>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import IsWinXin from '@/common/IsWinXin'
 // import store from '@/vuex/store'
 import Qs from 'qs'
 export default {
@@ -24,6 +25,9 @@ export default {
       error_type: '', // 错误类型
       alert_show: false, // 是否弹出错误
     }
+  },
+  mounted() {
+    IsWinXin.IsWinXin()
   },
   methods: {
     DownloadFg () {
