@@ -10,7 +10,11 @@ export default{
                 window.location.href = nowURI.replace("index", "itemdetail");   
             }
         } else {
-            window.location.href = 'http://h5.fgshop.vip/#/index';
+            window.location.href = nowURI.replace("index", "index"); 
+            window.location.href = nowURI.replace("login", "index"); 
+            window.location.href = nowURI.replace("itemdetail", "index"); 
+            window.location.href = nowURI.replace("Search", "index"); 
+            window.location.href = nowURI.replace("SearchVideo", "index"); 
         }
     },
     Whatis () {

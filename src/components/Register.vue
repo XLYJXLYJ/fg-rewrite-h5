@@ -23,7 +23,7 @@
       <img class="three_close" src="../assets/delete@2x.png" v-show="forget_password_phone_code" @click="ClearForgetPasswordPhoneCode()">
       <div class="get_phone_identifying_code">
         <input type="text" v-model="phone_code" placeholder="请输入您的手机验证码" autocomplete="off" @focus.stop.prevent="ForgetPasswordPhoneCodeFocus()" @blur.stop.prevent="ForgetPasswordPhoneCodeBlur()">
-        <button @click.stop="GetCodeNumber" :class="{getCodeNumber:btnTxtColor01 , getCodeNumberDisabled:btnTxtColor02}" :disabled="disabled">{{btnTxt}}</button>
+        <button @click.stop.prevent="GetCodeNumber" :class="{getCodeNumber:btnTxtColor01 , getCodeNumberDisabled:btnTxtColor02}" :disabled="disabled">{{btnTxt}}</button>
       </div>
       <div class="setpassword_confirm">
       <button @click="ConfirmChangePassword()" :class="{forget_password_button:is_forget_password_button,ok_forget_password_button:!is_forget_password_button}">确定</button>
@@ -212,7 +212,7 @@ export default {
               this.disabled = true
               this.Timer()
             } else {
-              this.error_type = '图形验证码错误'
+              this.error_type = response.data.message
               this.alert_show = true
             }
           })
@@ -284,7 +284,7 @@ export default {
         this.alert_show = true
       } else {
         data = Qs.stringify(data)
-        this.axios.get(this.$store.state.baseUrl + '/user/login/mobile' + data)
+        this.axios.get(this.$store.state.baseUrl + '/user/login/mobile?' + data)
           .then(response => {
             if (response.data.code === 200) {
               if (response.data.data.userId) {
