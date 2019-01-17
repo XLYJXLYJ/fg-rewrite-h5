@@ -9,6 +9,11 @@ import {Alert, Loading} from 'vux'
 import { Swiper } from 'vux'
 import axios from 'axios'
 import VueClipboard from 'vue-clipboard2'
+// import Vconsole from 'vconsole'
+
+// Vue.prototype.$vconsole = new Vconsole()
+
+Vue.use(VueClipboard)
 
 Vue.use(VueClipboard)
 

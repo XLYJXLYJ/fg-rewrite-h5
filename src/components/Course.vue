@@ -33,6 +33,7 @@ export default {
   name: 'HelloWorld',
   mounted() {
     IsWinXin.IsWinXin()
+    document.title = '全网搜劵';
   },
   data () {
     return {

@@ -1,23 +1,24 @@
+import Vue from 'vue'
+import router from '../router/index.js'
 export default{
     IsWinXin () {
         let weixin = this.Whatis()
         console.log(weixin)
         let nowURI = window.location.href;
         if(!weixin){
+            console.log('不是微信端')
             if (nowURI.indexOf("page=login") != -1) {
                 window.location.href = nowURI.replace("index", "login");   
             } else {
                 window.location.href = nowURI.replace("index", "itemdetail");   
             }
-        } else {
-            window.location.href = nowURI.replace("index", "index"); 
-            window.location.href = nowURI.replace("login", "index"); 
-            window.location.href = nowURI.replace("itemdetail", "index"); 
-            window.location.href = nowURI.replace("Search", "index"); 
-            window.location.href = nowURI.replace("SearchVideo", "index"); 
-        }
+        } 
+        // else {
+        //     console.log('是微信端')
+        //     window.location.href = nowURI.replace("index", "index");  
+        // }
     },
     Whatis () {
-        return navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1
+        return window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1
     }
 }

@@ -38,9 +38,16 @@ export default {
     }
   },
   mounted() {
-    IsWinXin.IsWinXin()
+    document.title = '新手指引';
+    let weixin = this.Whatis()
+    if(weixin){
+        window.location.href = window.location.href.replace("SearchVideo", "index");
+    }
   },
   methods: {
+    Whatis () {
+      return window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1
+    },
     // 控制视频播放，暂停
     playClick(){
         this._dom = document.getElementById('video');

@@ -29,6 +29,19 @@
       <button @click.stop.prevent="ConfirmChangePassword()" :class="{forget_password_button:is_forget_password_button,ok_forget_password_button:!is_forget_password_button}">确定</button>
       </div>
       </form>
+      <div class="activity_rules">
+        <h3>活动规则：</h3>
+        <ol>
+          <li>1. 本活动仅限于通过本页面参加。</li>
+          <li>2. 活动有效期：2018年12月13日-2019年5月30日。</li>
+          <li>3. 领取免单资格后，支付邮费即可免费体验，数量有限先到先得。</li>
+          <li>4. 活动期间，邮费支付用【银行卡支付】，随机立减5-99元，每人1次。</li>
+          <li>5. 同一个手机号，返利网账号均视为同一个用户，同一用户限购1件，严禁作弊，一经发现，取消资格。</li>
+          <li>6. 每位用户可限享受1次优惠，同一身份证号/同一手机号/同一一网通账号/同一点返利网账号任一相同视为同一用户。</li>
+          <li>7. 该活动商品为会员福利，无质量问题不予退换。如发生退款，优惠金额不予退回，且优惠资格不再享有。</li>
+          <li>8. 招商银行仅为客户提供支付方式，商品及订单问题请致电：400-672-5100。</li>
+        </ol>
+      </div>
     </div>
   </div>
 </template>
@@ -80,10 +93,10 @@ export default {
   },
   created () {
     document.title = '注册';
-    let weixin = this.Whatis()
-    if(weixin){
-        window.location.href = window.location.href.replace("login", "index");
-    }
+    // let weixin = this.Whatis()
+    // if(weixin){
+    //     window.location.href = window.location.href.replace("login", "index");
+    // }
     this.GetImgCode()
     // this.phone = localStorage.getItem('mobile')
   },
@@ -291,10 +304,12 @@ export default {
         this.alert_show = true
       } else {
         data = Qs.stringify(data)
-        this.axios.post(this.$store.state.baseUrl + '/user/login/mobile?' + data)
+        this.axios.get(this.$store.state.baseUrl + '/user/login/mobile?' + data)
           .then(response => {
             if (response.data.code === 200) {
+              if (response.data.data.userId) {
                 this.$router.push({name: 'loginSuccess'})
+              }
             } else {
               this.error_type = response.data.message
               this.alert_show = true
@@ -521,6 +536,29 @@ export default {
     top: 674px;
     left: 499px;
     z-index: 1000;
+  }
+  .activity_rules{
+    width:600px;
+    height: auto;
+    position: absolute;
+    top: 980px;
+    left: 20px;
+    margin-bottom: 40px;
+    h3{
+      font-size: 29px;
+    }
+    ol{
+      width: 100%;
+      height: auto;
+      li{
+        margin-top: 10px;
+        font-size: 16px;
+        color: #000;
+        line-height: 26px;
+        font-family:PingFang-SC-Regular;
+        font-weight:Regular;
+      }
+    }
   }
 }
 </style>

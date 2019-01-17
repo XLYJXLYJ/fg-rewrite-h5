@@ -14,11 +14,13 @@
         <p class="sale_price_img"><img src="../assets/discount_bg.jpg"><span>{{couponMoney}}元</span></p>
         <div class="goods_share_button">
             <button class="download_button" @click.stop.prevent="DownloadApp()">下载app拿佣金</button>
-            <button class="copy_button"  type="button"
+            <button class="copy_button"  type="button" v-show="taobao"
                 v-clipboard:copy="tbkPwd"
                 v-clipboard:success="onCopy"
                 v-clipboard:error="onError">
-            复制淘宝口令</button>
+                复制淘宝口令</button>
+            <button class="copy_button"  type="button" v-show="!taobao" @click="routeToTaobao()">
+                跳转淘宝</button>
             <input type="text" style="display:none" v-show='tbkPwd'>
         </div>
     </div>
@@ -40,16 +42,27 @@ export default {
             itemEndPrice: '', // 折后价
             couponMoney: '', // 优惠券
             arrImg: [], // 商品图片
-            demoList: []
+            demoList: [],
+            taobao:  true// taobo口令
+        }
+    },
+    created () {
+        var weixin = this.Whatis()
+        if(weixin){
+            window.location.href = window.location.href.replace("itemdetail", "index");
         }
     },
     mounted() {
-        IsWinXin.IsWinXin()
-        this.ids = this.GetId();
+        document.title = '商品详情'
+        // IsWinXin.IsWinXin()
+        this.ids = this.GetId()
         this.GetShopDetail()
         this.GetCopyCommand()
     },
     methods: {
+        Whatis () {
+            return window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1
+        },
         DownloadApp () {
             let u = navigator.userAgent;
             let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
@@ -73,7 +86,8 @@ export default {
         GetShopDetail () {
             let data = {
                 userId: this.ids.d,
-                itemId: this.ids.itemId
+                itemId: this.ids.itemId,
+                type:2
                 // userId: 123077,
                 // itemId: 553190408685
             }
@@ -81,7 +95,8 @@ export default {
             this.axios.get(this.$store.state.baseUrl + '/product/thd/itemDetail?' + data)
             .then(response => {
                 if (response.data.code === 200) {
-                if (response.data.data.userId) {
+                    // console.log(response.data.data)
+                if (response.data.data) {
                     this.itemTitle = response.data.data.itemTitle
                     this.itemPrice = response.data.data.itemPrice
                     this.itemEndPrice = response.data.data.itemEndPrice
@@ -107,7 +122,8 @@ export default {
                 // userId: 123077,
                 // itemId: 553190408685
                 userId: this.ids.d,
-                itemId: this.ids.itemId
+                itemId: this.ids.itemId,
+                type:2
             }
             data = Qs.stringify(data)
             this.axios.get(this.$store.state.baseUrl + '/product/thd/convertEnhance?' + data)
@@ -124,6 +140,7 @@ export default {
             if (this.tbkPwd) {
                 this.error_type = '复制淘口令成功'
                 this.alert_show = true
+                this.taobao = false
             }
         },
         onError () {
@@ -131,6 +148,9 @@ export default {
                 this.error_type = '复制淘口令失败'
                 this.alert_show = true
             }
+        },
+        routeToTaobao () {
+            window.location.href = 'https://www.taobao.com';  
         }
     },
 }
@@ -234,6 +254,7 @@ export default {
         position: relative;
         left: 20px;
         top: 30px;
+        margin-bottom: 30px;
         img{
             width:130px;
             height:45px;

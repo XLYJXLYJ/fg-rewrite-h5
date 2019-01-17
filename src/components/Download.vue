@@ -27,18 +27,19 @@ export default {
     }
   },
   mounted() {
-    document.title = '注册成功';
-    let weixin = this.Whatis()
-    if(weixin){
-        window.location.href = window.location.href.replace("Search", "index");
-    }
+    document.title = '下载';
+    // let weixin = this.Whatis()
+    // if(weixin){
+    //     window.location.href = window.location.href.replace("Search", "index");
+    // }
   },
   methods: {
-    Whatis () {
-      return window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1
-    },
+    // 是否是微信客户端
+    // Whatis () {
+    //   return window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1
+    // },
     DownloadFg () {
-      let u = navigator.userAgent;
+      let u = window.navigator.userAgent;
       let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
       let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
       let hrefUrl = "https://sj.qq.com/myapp/detail.htm?apkName=com.fgoushop.fangou";

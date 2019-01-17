@@ -43,6 +43,24 @@ export default new Router({
       }
     },
     {
+      // 微信注册
+      path: '/webRegister',
+      name: 'webRegister',
+      component: resolve => require(['@/components/webRegister'], resolve),
+      meta: {
+        title: '微信注册'
+      }
+    },
+    {
+      // 微信注册
+      path: '/Download',
+      name: 'Download',
+      component: resolve => require(['@/components/Download'], resolve),
+      meta: {
+        title: '下载'
+      }
+    },
+    {
       // 注册成功
       path: '/loginSuccess',
       name: 'RegisterSuccess',
@@ -62,3 +80,5 @@ export default new Router({
     }
   ]
 })
+
+

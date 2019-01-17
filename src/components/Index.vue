@@ -1,11 +1,26 @@
 <template>
-    <div class="how_to"></div>
+    <div class="how_to"><img src="../assets/hrefimage.png"></div>
 </template>
 <script>
 import IsWinXin from '@/common/IsWinXin'
 export default {
-    mounted() {
-        IsWinXin.IsWinXin()
+    created () {
+        document.title = '微信跳转页';
+        let nowURI = window.location.href;
+        let weixin = this.Whatis()
+        if(!weixin){
+            // console.log('不是微信端')
+            if (nowURI.indexOf("page=login") != -1) {
+                window.location.href = nowURI.replace("index", "login");   
+            } else {
+                window.location.href = nowURI.replace("index", "itemdetail");   
+            }
+        } 
+    },
+    methods: {
+        Whatis () {
+            return window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1
+        },
     }
 }
 </script>
@@ -14,10 +29,11 @@ export default {
     width: 640px;
     height: 100%;
     position: absolute;
-    background:url("../assets/hrefimage.png") no-repeat;
-    background-position: center center;
-    background-color: #666666;
-    background-size: 100%;
-    overflow-y:auto;
+    z-index: 1000;
+    img{
+        width:640px;
+        height: 100%;
+        z-index: 1000;
+    }
 }
 </style>
