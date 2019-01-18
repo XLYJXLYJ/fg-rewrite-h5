@@ -304,12 +304,10 @@ export default {
         this.alert_show = true
       } else {
         data = Qs.stringify(data)
-        this.axios.get(this.$store.state.baseUrl + '/user/login/mobile?' + data)
+        this.axios.post(this.$store.state.baseUrl + '/user/login/mobile?' + data)
           .then(response => {
             if (response.data.code === 200) {
-              if (response.data.data.userId) {
-                this.$router.push({name: 'loginSuccess'})
-              }
+              this.$router.push({name: 'loginSuccess'})
             } else {
               this.error_type = response.data.message
               this.alert_show = true
