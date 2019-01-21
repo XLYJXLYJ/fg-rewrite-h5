@@ -8,6 +8,8 @@ const state = {
   userType: 0, // 用户类型
   have_order: true, // 是否有订单
   search_phone: '', // 是否有订单
+  hongbao: '',
+  hongbao_phone: '',
   StoreUnderCountPercent: '', // 直属占比
   StoreReferCountPercent: '', // 推荐占比
   StoreAgentCountPercent: '', // 代理商占比

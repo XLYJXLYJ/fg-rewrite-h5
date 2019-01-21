@@ -21,6 +21,10 @@ Vue.prototype.axios = axios
 
 Vue.config.productionTip = false
 
+Vue.prototype.BackFunction = function () {
+  this.$router.go(-1)
+}
+
 Vue.component('alert', Alert)
 
 Vue.component('loading', Loading)

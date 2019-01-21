@@ -3,10 +3,12 @@
     <!-- <VHead></VHead> -->
     <alert v-model="alert_show">{{error_type}}</alert>
     <div class="change_password">
+      <img class="change_password_bg" src="../assets/bg.png" alt="">
       <div class="me">
+        <img src="../assets/back@2x.png" @click="BackFunction()">
         <p>凡购注册</p>
       </div>
-      <div class="logo"><img src="../assets/register_logo@2x.png" alt=""></div>
+      <!-- <div class="logo"><img src="../assets/register_logo@2x.png" alt=""></div> -->
       <form>
       <!-- 第一个表单 -->
       <img class="one_close" src="../assets/delete@2x.png" v-show="forget_password_phone" @click.stop.prevent="ClearPhone()">
@@ -16,30 +18,25 @@
       <!-- 第二个表单 -->
       <img class="two_close" src="../assets/delete@2x.png" v-show="forget_password_picture_code" @click.stop.prevent="ClearForgetPasswordPictureCode()">
       <div class="get_picture_identifying_code">
-        <input type="text" v-model="picture_code" placeholder="请输入您的图形验证码" autocomplete="off" @focus.stop.prevent="ForgetPasswordPictureCodeFocus()" @blur.stop.prevent="ForgetPasswordPictureCodeBlur()">
+        <input type="text" v-model="picture_code" placeholder="输入图形验证码" autocomplete="off" @focus.stop.prevent="ForgetPasswordPictureCodeFocus()" @blur.stop.prevent="ForgetPasswordPictureCodeBlur()">
         <img :src="get_picture_identifying_code" @click.stop.prevent="ReloadImgCode()">
       </div>
       <!-- 第三个表单 -->
       <img class="three_close" src="../assets/delete@2x.png" v-show="forget_password_phone_code" @click.stop.prevent="ClearForgetPasswordPhoneCode()">
       <div class="get_phone_identifying_code">
-        <input type="text" v-model="phone_code" placeholder="请输入您的手机验证码" autocomplete="off" @focus.stop.prevent="ForgetPasswordPhoneCodeFocus()" @blur.stop.prevent="ForgetPasswordPhoneCodeBlur()">
+        <input type="text" v-model="phone_code" placeholder="输入手机验证码" autocomplete="off" @focus.stop.prevent="ForgetPasswordPhoneCodeFocus()" @blur.stop.prevent="ForgetPasswordPhoneCodeBlur()">
         <button @click.stop.prevent="GetCodeNumber" :class="{getCodeNumber:btnTxtColor01 , getCodeNumberDisabled:btnTxtColor02}" :disabled="disabled">{{btnTxt}}</button>
       </div>
       <div class="setpassword_confirm">
-      <button @click.stop.prevent="ConfirmChangePassword()" :class="{forget_password_button:is_forget_password_button,ok_forget_password_button:!is_forget_password_button}">确定</button>
+      <button @click.stop.prevent="ConfirmChangePassword()" :class="{forget_password_button:is_forget_password_button,ok_forget_password_button:!is_forget_password_button}">立即领取</button>
       </div>
       </form>
       <div class="activity_rules">
         <h3>活动规则：</h3>
         <ol>
-          <li>1. 本活动仅限于通过本页面参加。</li>
-          <li>2. 活动有效期：2018年12月13日-2019年5月30日。</li>
-          <li>3. 领取免单资格后，支付邮费即可免费体验，数量有限先到先得。</li>
-          <li>4. 活动期间，邮费支付用【银行卡支付】，随机立减5-99元，每人1次。</li>
-          <li>5. 同一个手机号，返利网账号均视为同一个用户，同一用户限购1件，严禁作弊，一经发现，取消资格。</li>
-          <li>6. 每位用户可限享受1次优惠，同一身份证号/同一手机号/同一一网通账号/同一点返利网账号任一相同视为同一用户。</li>
-          <li>7. 该活动商品为会员福利，无质量问题不予退换。如发生退款，优惠金额不予退回，且优惠资格不再享有。</li>
-          <li>8. 招商银行仅为客户提供支付方式，商品及订单问题请致电：400-672-5100。</li>
+          <li>1.本活动仅限于通过本页面参加</li>
+          <li>2.活动有效期:2019年1月17日－2019年2月17日</li>
+          <li>3.同一个手机号限领一次</li>
         </ol>
       </div>
     </div>
@@ -92,7 +89,7 @@ export default {
     }
   },
   created () {
-    document.title = '注册';
+    document.title = '凡购注册';
     // let weixin = this.Whatis()
     // if(weixin){
     //     window.location.href = window.location.href.replace("login", "index");
@@ -307,7 +304,9 @@ export default {
         this.axios.post(this.$store.state.baseUrl + '/user/login/mobile?' + data)
           .then(response => {
             if (response.data.code === 200) {
-              this.$router.push({name: 'loginSuccess'})
+              this.$store.state.hongbao = response.data.data
+              this.$store.state.hongbao_phone = this.phone
+              this.$router.push({name: 'webRegisterSuccess'})
             } else {
               this.error_type = response.data.message
               this.alert_show = true
@@ -326,6 +325,12 @@ export default {
   height: 100%;
   position: absolute;
   background-color: #fff;
+  .change_password_bg{
+    width: 640px;
+    height: 100%;
+    position: absolute;
+    top: 75px;
+  }
     .me{
     position: absolute;
     width: 100%;
@@ -333,6 +338,13 @@ export default {
     background-color: #F5F5F5;
     text-align: center;
     position: relative;
+    img{
+      width: 34px;
+      height: 34px;
+      position: absolute;
+      left: 16px;
+      top: 22px;
+    }
     p{
       width:121px;
       height:32px;
@@ -344,31 +356,32 @@ export default {
       padding-top: 25px;
     }
   }
-  .logo{
-    width: 293px;
-    height: 176px;
-    position: relative;
-    top: 72px;
-    margin: 0 auto;
-    img{
-      width: 293px;
-      height: 176px;
-    }
-  }
+  // .logo{
+  //   width: 293px;
+  //   height: 176px;
+  //   position: relative;
+  //   top: 72px;
+  //   margin: 0 auto;
+  //   img{
+  //     width: 293px;
+  //     height: 176px;
+  //   }
+  // }
   .get_identifying_code{
     position: absolute;
-    top: 402px;
-    left: 27px;
-    width: 585px;
+    top: 645px;
+    left: 126px;
+    width: 370px;
     height: 67px;
     input{
-      width: 566px;
-      height: 67px;
+      width: 369px;
+      height: 68px;
       font-size: 29px;
       background: #F5F5F5;
+      color: #333333;
       font-family:PingFang-SC-Regular;
       font-weight:Regular;
-      padding-left: 19px;
+      padding-left: 18px;
       border-radius:9px;
     }
     img{
@@ -381,74 +394,74 @@ export default {
   }
   .get_picture_identifying_code{
     position: absolute;
-    top: 495px;
-    left: 27px;
-    width: 585px;
+    top: 722px;
+    left: 126px;
+    width: 387px;
     height: 67px;
     input{
-        width: 340px;
-        height: 67px;
+        width: 223px;
+        height: 68px;
         font-size: 29px;
         background: #F5F5F5;
-        color: #BABABA;
+        color: #333333;
         position: absolute;
         left: 0px;
         font-family:PingFang-SC-Regular;
         font-weight:Regular;
-        padding-left: 19px;
+        padding-left: 18px;
         border-radius:9px;
     }
     img{
-        width: 203px;
-        height: 67px;
+        width: 140px;
+        height: 68px;
         position: absolute;
         right: 0px;
-        border-radius: 9px;
+        border-radius: 3px;
     }
   }
   .get_phone_identifying_code{
     position: absolute;
-    top: 588px;
-    left: 27px;
-    width: 585px;
+    top: 799px;
+    left: 126px;
+    width: 387px;
     height: 67px;
     input{
-        width: 340px;
+        width: 223px;
         height: 67px;
         font-size: 29px;
         background: #F5F5F5;
-        color: #BABABA;
+        color: #333333;
         font-family:PingFang-SC-Regular;
         font-weight:Regular;
         padding-left: 19px;
         border-radius:9px;
     }
     .getCodeNumberDisabled{
-      width: 203px;
-      height: 67px;
+      width: 140px;
+      height: 68px;
       position: absolute;
       top: 0px;
       right: 0px;
-      color: #666;
+      color: #E13535;
       background-color: #fff;
       font-size:20px;
       font-family:PingFang-SC-Regular;
       font-weight:Regular;
-      border-radius: 9px;
+      border-radius: 3px;
       border: 1px solid #999;
     }
     .getCodeNumber{
-      width: 203px;
-      height: 67px;
+      width: 140px;
+      height: 68px;
       position: absolute;
       top: 0px;
       right: 0px;
-      color: #fff;
-      background-color: #FF5100;
-      font-size:24px;
+      color: #E13535;
+      background-color: #FFFFFF;
+      font-size:20px;
       font-family:PingFang-SC-Regular;
       font-weight:Regular;
-      border-radius: 9px;
+      border-radius: 3px;
     }
   }
   .register_show_passage{
@@ -469,24 +482,24 @@ export default {
   }
   .setpassword_confirm{
     position: absolute;
-    top: 706px;
+    top: 860px;
     width: 100%;
     height: 94px;
     text-align: center;
     button{
-      width:589px;
-      height:94px;
+      width:387px;
+      height:77px;
       font-size:27px;
-      font-family:PingFang-SC-Regular;
-      font-weight:Regular;
+      font-family:PingFang-SC-bold;
+      font-weight:bold;
       margin: 0 auto;
       margin-top:33px;
-      border-radius: 9px;
+      border-radius: 3px;
       cursor: pointer;
     }
     .forget_password_button{
-      background: #E8E8EA;
-      color: #333;
+      background: #FFCA8F;
+      color: #E13535;
       cursor: pointer;
     }
     .ok_forget_password_button{
@@ -499,62 +512,48 @@ export default {
     width:24px;
     height: 24px;
     position: absolute;
-    top: 426px;
-    left: 559px;
+    top: 595px;
+    left: 477px;
     z-index: 1000;
   }
   .two_close{
     width:24px;
     height: 24px;
     position: absolute;
-    top: 518px;
-    left: 346px;
+    top: 670px;
+    left: 336px;
     z-index: 1000;
   }
   .three_close{
     width:24px;
     height: 24px;
     position: absolute;
-    top: 610px;
-    left: 346px;
-    z-index: 1000;
-  }
-  .four_close{
-    width:24px;
-    height: 24px;
-    position: absolute;
-    top: 580px;
-    left: 499px;
-    z-index: 1000;
-  }
-  .five_close{
-    width:24px;
-    height: 24px;
-    position: absolute;
-    top: 674px;
-    left: 499px;
+    top: 745px;
+    left: 336px;
     z-index: 1000;
   }
   .activity_rules{
-    width:600px;
+    width:450px;
     height: auto;
     position: absolute;
-    top: 980px;
-    left: 20px;
-    margin-bottom: 40px;
+    top: 1060px;
+    left: 98px;
     h3{
-      font-size: 29px;
+      font-size: 20px;
+      font-family:PingFang-SC-bold;
+      font-weight:bold;
+      color: #FFCA8F;
     }
     ol{
       width: 100%;
       height: auto;
       li{
-        margin-top: 10px;
-        font-size: 16px;
-        color: #000;
+        margin-top: 0px;
+        font-size: 20px;
+        color: #FFCA8F;
         line-height: 26px;
-        font-family:PingFang-SC-Regular;
-        font-weight:Regular;
+        font-family:PingFang-SC-Heavy;
+        font-weight:Heavy;
       }
     }
   }

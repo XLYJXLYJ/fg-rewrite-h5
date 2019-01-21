@@ -37,6 +37,22 @@ html {overflow-x: hidden;height: 100%;font-size: 50px;-webkit-tap-highlight-colo
 body {font-family: Arial, "Microsoft Yahei", "Helvetica Neue", Helvetica, sans-serif;color: #333;font-size: .28em;line-height: 1;-webkit-text-size-adjust: none;}
 hr {height: .02rem;margin: .1rem 0;border: medium none;border-top: .02rem solid #cacaca;}
 a {color: #25a4bb;text-decoration: none;}
+input:focus::-webkit-input-placeholder {
+color: transparent;
+/* transparent是全透明黑色(black)的速记法，即一个类似rgba(0,0,0,0)这样的值 */
+}
+/* Mozilla Firefox 4 to 18 */
+input:focus:-moz-placeholder {
+color: transparent;
+}
+/* Mozilla Firefox 19+ */
+input:focus::-moz-placeholder {
+color: transparent;
+}
+/* Internet Explorer 10+ */
+input:focus:-ms-input-placeholder {
+color: transparent;
+}
 #app{
   width: 640px;
   margin: 0 auto;
