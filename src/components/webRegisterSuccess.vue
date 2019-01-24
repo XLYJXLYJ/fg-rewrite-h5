@@ -182,7 +182,7 @@ export default {
       color:rgba(229,27,9,1);
       z-index: 1000;
       position: relative;
-      top: 130px;
+      top: 50px;
       margin: 0 auto;
       text-align: center;
       img{
@@ -201,7 +201,7 @@ export default {
       font-weight:Regular;
       color:rgba(255,202,143,1);
       position: relative;
-      top: 331px;
+      top: 221px;
       margin: 0 auto;
     }
     .login{
@@ -212,7 +212,7 @@ export default {
       font-weight:Regular;
       color:rgba(255,202,143,1);
       position: relative;
-      top: 308px;
+      top: 198px;
       margin: 0 auto;
       text-align: center;
     }
@@ -235,7 +235,7 @@ export default {
   }
   .setpassword_confirm{
     position: absolute;
-    top: 537px;
+    top: 427px;
     width: 100%;
     height: 94px;
     text-align: center;
